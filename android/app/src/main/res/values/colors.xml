@@ -1,0 +1,12 @@
+<resources>
+    <color name="reclip_orange">#E85D2A</color>
+    <color name="reclip_orange_dark">#CC4B1D</color>
+    <color name="reclip_ink">#2F2D2A</color>
+    <color name="reclip_canvas">#F4F1EB</color>
+    <color name="reclip_surface">#FFFDF8</color>
+    <color name="reclip_border">#E3DED4</color>
+    <color name="reclip_success">#2D8A4E</color>
+    <color name="reclip_error">#C43D3D</color>
+    <color name="reclip_muted">#817B71</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

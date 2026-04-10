@@ -30,6 +30,47 @@ cd reclip
 
 Open **http://localhost:8899**.
 
+## Android App
+
+This repo now also includes a native Android client in [`android/`](./android) that runs `yt-dlp` directly on-device and saves finished files into **Download/ReClip**.
+
+### Build the APK
+
+1. Install the Android SDK command-line tools or Android Studio.
+2. Make sure `ANDROID_HOME` or `ANDROID_SDK_ROOT` points at your SDK.
+3. Build from the Android project folder:
+
+```bash
+cd android
+./gradlew :app:assembleDebug
+```
+
+### APK Output
+
+After a successful build, debug APKs are created in:
+
+```bash
+android/app/build/outputs/apk/debug/
+```
+
+For most modern Android phones, the smallest useful file is:
+
+```bash
+android/app/build/outputs/apk/debug/app-arm64-v8a-debug.apk
+```
+
+If you want one APK that works across more device types, use:
+
+```bash
+android/app/build/outputs/apk/debug/app-universal-debug.apk
+```
+
+### Android Notes
+
+- The Android client supports the same core flow as the web app: paste URLs, fetch info, choose MP4 or MP3, then download on-device.
+- On Android 11 and later, you will be prompted to allow file access so ReClip can save media into the public Downloads folder.
+- The Android app is aimed at direct installs / sideloading rather than Play Store release hardening.
+
 Or with Docker:
 
 ```bash

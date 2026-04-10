@@ -1,0 +1,23 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Reclip" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/reclip_orange</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/reclip_orange</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+        <item name="colorSecondary">@color/reclip_ink</item>
+        <item name="colorSurface">@color/reclip_surface</item>
+        <item name="colorSurfaceContainerLow">@color/reclip_surface</item>
+        <item name="colorOutline">@color/reclip_border</item>
+        <item name="android:windowBackground">@color/reclip_canvas</item>
+        <item name="android:statusBarColor">@color/reclip_canvas</item>
+        <item name="android:navigationBarColor">@color/reclip_canvas</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="materialCardViewStyle">@style/Widget.Reclip.Card</item>
+    </style>
+
+    <style name="Widget.Reclip.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="strokeColor">@color/reclip_border</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardBackgroundColor">@color/reclip_surface</item>
+    </style>
+ </resources>

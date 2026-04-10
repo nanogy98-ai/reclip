@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">ReClip</string>
+    <string name="toolbar_subtitle">Paste links, pick MP4 or MP3, and save them on-device.</string>
+    <string name="url_hint">Paste one or more video URLs</string>
+    <string name="input_helper">Multiple links? Separate them with spaces, commas, or new lines.</string>
+    <string name="mode_video">MP4</string>
+    <string name="mode_audio">MP3</string>
+    <string name="fetch">Fetch</string>
+    <string name="download_all">Download All</string>
+    <string name="grant_access">Grant Access</string>
+    <string name="storage_banner_title">Storage access is needed before downloads can be saved to your Downloads folder.</string>
+    <string name="storage_banner_body">ReClip saves finished files into Download/ReClip so they stay easy to find on your phone.</string>
+    <string name="empty_state">Fetched clips will appear here.</string>
+    <string name="download_folder">Saved to Download/ReClip</string>
+    <string name="status_fetching">Fetching details…</string>
+    <string name="status_ready">Ready to download</string>
+    <string name="status_downloading">Downloading…</string>
+    <string name="status_finished">Saved to your phone</string>
+    <string name="status_error">Download failed</string>
+    <string name="status_info_error">Could not fetch this URL</string>
+    <string name="action_download">Download</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_open">Open</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="download_preparing">Preparing download…</string>
+    <string name="download_running">Downloading media…</string>
+    <string name="download_complete">Download complete</string>
+    <string name="download_channel_name">ReClip downloads</string>
+    <string name="download_channel_description">Shows progress while ReClip saves media on your phone.</string>
+    <string name="permission_notifications_rationale">Notifications help show download progress when the app is in the background.</string>
+</resources>
