@@ -11,8 +11,8 @@ android {
         applicationId = "io.nanogy.reclip"
         minSdk = 24
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.1.2"
+        versionCode = 4
+        versionName = "0.2.0"
 
         ndk {
             abiFilters += listOf("x86", "x86_64", "armeabi-v7a", "arm64-v8a")
@@ -66,6 +66,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.work:work-runtime-ktx:2.10.0")
+    implementation("io.coil-kt:coil:2.7.0")
     implementation("com.google.android.material:material:1.12.0")
     implementation("io.github.junkfood02.youtubedl-android:ffmpeg:0.18.1")
     implementation("io.github.junkfood02.youtubedl-android:library:0.18.1")

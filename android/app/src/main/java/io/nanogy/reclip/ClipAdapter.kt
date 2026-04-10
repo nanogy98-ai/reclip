@@ -1,9 +1,11 @@
 package io.nanogy.reclip
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import coil.load
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -34,8 +36,15 @@ class ClipAdapter(
         private val binding: ItemClipBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ClipItem) {
+            if (item.thumbnailUrl.isNullOrBlank()) {
+                binding.thumbnail.setImageDrawable(null)
+            } else {
+                binding.thumbnail.load(item.thumbnailUrl) {
+                    crossfade(true)
+                }
+            }
+
             binding.title.text = item.title
-            binding.url.text = item.url
             binding.meta.text = buildMeta(item)
             binding.meta.isVisible = binding.meta.text.isNotBlank()
 
@@ -43,59 +52,88 @@ class ClipAdapter(
             binding.error.text = item.errorMessage
             binding.error.isVisible = !item.errorMessage.isNullOrBlank()
 
-            val isDownloading = item.status == ClipStatus.DOWNLOADING
-            binding.progress.isVisible = isDownloading
-            binding.progress.progress = item.progress.coerceIn(0, 100)
-            binding.progressLabel.isVisible = isDownloading
-            binding.progressLabel.text = if (isDownloading) {
-                "${item.progress.coerceIn(0, 100)}%"
-            } else {
-                ""
+            val showProgress = item.status == ClipStatus.DOWNLOADING || item.status == ClipStatus.DONE
+            binding.progress.isVisible = showProgress
+            binding.progress.progress = when (item.status) {
+                ClipStatus.DONE -> 100
+                else -> item.progress.coerceIn(0, 100)
+            }
+            binding.progressLabel.isVisible = showProgress
+            binding.progressLabel.text = when (item.status) {
+                ClipStatus.DONE -> "100%"
+                ClipStatus.DOWNLOADING -> "${item.progress.coerceIn(0, 100)}%"
+                else -> ""
             }
 
-            binding.formatGroup.removeAllViews()
             val showFormats =
                 mode == DownloadMode.VIDEO &&
                     item.formats.size > 1 &&
-                    item.status != ClipStatus.INFO_ERROR &&
-                    item.status != ClipStatus.LOADING_INFO
+                    (item.status == ClipStatus.READY || item.status == ClipStatus.ERROR)
 
             binding.formatGroup.isVisible = showFormats
             if (showFormats) {
-                val currentChipIds = (0 until binding.formatGroup.childCount).map { 
-                    binding.formatGroup.getChildAt(it).tag as? String 
-                }
-                val newFormatIds = item.formats.map { it.id }
-
-                if (currentChipIds != newFormatIds) {
-                    binding.formatGroup.removeAllViews()
-                    item.formats.forEach { format ->
-                        val chip = Chip(binding.root.context).apply {
-                            text = format.label
-                            tag = format.id
-                            isCheckable = true
-                            isChecked = format.id == item.selectedFormatId
-                            setOnClickListener { onFormatSelected(item.id, format.id) }
-                        }
-                        binding.formatGroup.addView(chip)
+                binding.formatGroup.removeAllViews()
+                item.formats.forEach { format ->
+                    val chip = Chip(binding.root.context).apply {
+                        text = format.label
+                        tag = format.id
+                        isCheckable = true
+                        isChecked = format.id == item.selectedFormatId
+                        chipBackgroundColor =
+                            ContextCompat.getColorStateList(
+                                context,
+                                R.color.mode_button_bg,
+                            )
+                        setTextColor(
+                            ContextCompat.getColorStateList(
+                                context,
+                                R.color.mode_button_text,
+                            ),
+                        )
+                        chipStrokeWidth = 0f
+                        checkedIcon = null
+                        setOnClickListener { onFormatSelected(item.id, format.id) }
                     }
-                } else {
-                    for (i in 0 until binding.formatGroup.childCount) {
-                        val chip = binding.formatGroup.getChildAt(i) as Chip
-                        val format = item.formats[i]
-                        chip.isChecked = format.id == item.selectedFormatId
-                    }
+                    binding.formatGroup.addView(chip)
                 }
+            } else {
+                binding.formatGroup.removeAllViews()
             }
 
-            binding.action.text = when (item.status) {
+            val actionIcon = when (item.status) {
+                ClipStatus.LOADING_INFO -> R.drawable.ic_download_arrow
+                ClipStatus.READY -> R.drawable.ic_download_arrow
+                ClipStatus.INFO_ERROR -> R.drawable.ic_retry
+                ClipStatus.DOWNLOADING -> R.drawable.ic_close
+                ClipStatus.DONE -> R.drawable.ic_check_circle
+                ClipStatus.ERROR -> R.drawable.ic_retry
+            }
+            val actionLabel = when (item.status) {
                 ClipStatus.LOADING_INFO -> binding.root.context.getString(R.string.fetch)
-                ClipStatus.READY -> binding.root.context.getString(R.string.action_download)
-                ClipStatus.INFO_ERROR -> binding.root.context.getString(R.string.action_retry)
-                ClipStatus.DOWNLOADING -> binding.root.context.getString(R.string.action_cancel)
-                ClipStatus.DONE -> binding.root.context.getString(R.string.action_open)
-                ClipStatus.ERROR -> binding.root.context.getString(R.string.action_retry)
+                ClipStatus.READY -> binding.root.context.getString(R.string.action_start_download)
+                ClipStatus.INFO_ERROR -> binding.root.context.getString(R.string.action_retry_download)
+                ClipStatus.DOWNLOADING -> binding.root.context.getString(R.string.action_cancel_download)
+                ClipStatus.DONE -> binding.root.context.getString(R.string.action_open_file)
+                ClipStatus.ERROR -> binding.root.context.getString(R.string.action_retry_download)
             }
+            val actionColor = when (item.status) {
+                ClipStatus.DOWNLOADING -> R.color.reclip_surface_variant
+                ClipStatus.INFO_ERROR, ClipStatus.ERROR -> R.color.reclip_error
+                else -> R.color.reclip_cyan_bright
+            }
+            val actionIconTint = when (item.status) {
+                ClipStatus.DOWNLOADING -> R.color.reclip_white
+                else -> R.color.reclip_bg
+            }
+
+            binding.action.icon = ContextCompat.getDrawable(binding.root.context, actionIcon)
+            binding.action.iconTint = ColorStateList.valueOf(
+                ContextCompat.getColor(binding.root.context, actionIconTint),
+            )
+            binding.action.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(binding.root.context, actionColor),
+            )
+            binding.action.contentDescription = actionLabel
             binding.action.isEnabled = item.status != ClipStatus.LOADING_INFO
             binding.action.setOnClickListener { onAction(item) }
         }
@@ -120,7 +158,7 @@ class ClipAdapter(
                 ClipStatus.READY -> item.statusLine ?: binding.root.context.getString(R.string.status_ready)
                 ClipStatus.INFO_ERROR -> item.statusLine ?: binding.root.context.getString(R.string.status_info_error)
                 ClipStatus.DOWNLOADING -> item.statusLine ?: binding.root.context.getString(R.string.status_downloading)
-                ClipStatus.DONE -> item.statusLine ?: binding.root.context.getString(R.string.status_finished)
+                ClipStatus.DONE -> binding.root.context.getString(R.string.status_completed)
                 ClipStatus.ERROR -> item.errorMessage ?: binding.root.context.getString(R.string.status_error)
             }
         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/reclip_teal" android:state_checked="true" />
-    <item android:color="@color/reclip_surface_variant" />
+    <item android:color="@color/reclip_cyan_bright" android:state_checked="true" />
+    <item android:color="@color/reclip_dark_button" />
 </selector>

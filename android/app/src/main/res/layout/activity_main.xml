@@ -3,226 +3,391 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/reclip_bg"
-    android:fitsSystemWindows="true">
+    android:background="@drawable/bg_main_screen">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/contentScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:fillViewport="true"
-        android:paddingBottom="100dp">
+        android:paddingBottom="150dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingHorizontal="32dp">
+            android:paddingHorizontal="28dp">
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="120dp" />
+                android:layout_height="72dp" />
 
             <TextView
                 android:id="@+id/mainTitle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
                 android:gravity="center"
-                android:text="@string/app_name"
-                android:textColor="@color/reclip_purple_accent"
-                android:textSize="42sp"
+                android:lineSpacingExtra="-6sp"
+                android:text="@string/hero_title"
+                android:textColor="@color/reclip_white"
+                android:textSize="48sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="@string/toolbar_subtitle"
-                android:textColor="@color/reclip_muted"
+                android:textColor="@color/reclip_white"
                 android:textSize="14sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="48dp" />
-
-            <!-- Permission Card -->
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:id="@+id/permissionCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:cardBackgroundColor="@color/reclip_surface"
-                app:strokeColor="@color/reclip_error"
-                app:strokeWidth="1dp">
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_glass_panel"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:visibility="gone">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+                    android:text="@string/storage_banner_title"
+                    android:textColor="@color/reclip_white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/storage_banner_title"
-                        android:textColor="@color/reclip_white"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/storage_banner_body"
+                    android:textColor="@color/reclip_muted"
+                    android:textSize="13sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@string/storage_banner_body"
-                        android:textColor="@color/reclip_muted"
-                        android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/permissionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_paste_chip"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="8dp"
+                    android:text="@string/grant_access"
+                    android:textColor="@color/reclip_bg"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/permissionButton"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="@string/grant_access"
-                        app:backgroundTint="@color/reclip_surface_variant"
-                        android:textColor="@color/reclip_teal" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- URL Input Card -->
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/reclip_surface"
-                app:cardElevation="8dp"
-                app:strokeWidth="0dp">
+                android:layout_marginTop="28dp"
+                android:background="@drawable/bg_glass_panel"
+                android:orientation="vertical"
+                android:padding="18dp">
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="24dp">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/url_hint"
-                        app:boxStrokeColor="@color/reclip_purple_accent"
-                        app:hintTextColor="@color/reclip_purple_accent"
-                        app:placeholderTextColor="@color/reclip_muted">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/urlInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textMultiLine|textUri"
-                            android:maxLines="4"
-                            android:minLines="1"
-                            android:textColor="@color/reclip_white" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                    android:background="@drawable/bg_input_field"
+                    android:minHeight="64dp"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="12dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <com.google.android.material.button.MaterialButtonToggleGroup
-                            android:id="@+id/modeToggle"
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/ic_link"
+                            android:tint="@color/reclip_cyan_bright" />
+
+                        <EditText
+                            android:id="@+id/urlInput"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="@string/url_hint"
+                            android:importantForAutofill="no"
+                            android:inputType="textMultiLine|textUri"
+                            android:maxLines="3"
+                            android:minLines="1"
+                            android:paddingEnd="8dp"
+                            android:textColor="@color/reclip_white"
+                            android:textColorHint="@color/reclip_muted"
+                            android:textSize="17sp" />
+
+                        <TextView
+                            android:id="@+id/pasteButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:checkedButton="@+id/videoButton"
-                            app:selectionRequired="true"
-                            app:singleSelection="true">
+                            android:background="@drawable/bg_paste_chip"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="6dp"
+                            android:text="@string/paste"
+                            android:textAllCaps="false"
+                            android:textColor="@color/reclip_bg"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </FrameLayout>
 
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/videoButton"
-                                style="@style/Widget.Material3.Button.TonalButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/mode_video"
-                                android:textColor="@color/mode_button_text"
-                                app:backgroundTint="@color/mode_button_bg"
-                                app:toggleCheckedStateOnClick="true" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/audioButton"
-                                style="@style/Widget.Material3.Button.TonalButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/mode_audio"
-                                android:textColor="@color/mode_button_text"
-                                app:backgroundTint="@color/mode_button_bg"
-                                app:toggleCheckedStateOnClick="true" />
-                        </com.google.android.material.button.MaterialButtonToggleGroup>
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/modeToggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_mode_container"
+                        android:padding="4dp"
+                        app:checkedButton="@+id/videoButton"
+                        app:selectionRequired="true"
+                        app:singleSelection="true">
 
                         <com.google.android.material.button.MaterialButton
-                            android:id="@+id/fetchButton"
-                            style="@style/Widget.Material3.Button"
+                            android:id="@+id/videoButton"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="80dp"
+                            android:layout_height="44dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:minHeight="0dp"
+                            android:text="@string/mode_video"
+                            android:textColor="@color/mode_button_text"
+                            android:textStyle="bold"
+                            app:backgroundTint="@color/mode_button_bg"
+                            app:cornerRadius="18dp"
+                            app:toggleCheckedStateOnClick="true" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/audioButton"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="80dp"
+                            android:layout_height="44dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:minHeight="0dp"
+                            android:text="@string/mode_audio"
+                            android:textColor="@color/mode_button_text"
+                            android:textStyle="bold"
+                            app:backgroundTint="@color/mode_button_bg"
+                            app:cornerRadius="18dp"
+                            app:toggleCheckedStateOnClick="true" />
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
+                        android:id="@+id/fetchButton"
+                        android:layout_width="124dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_fetch_button"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_download_arrow"
+                            android:tint="@color/reclip_bg" />
+
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/fetch"
-                            app:backgroundTint="@color/reclip_teal"
-                            app:cornerRadius="16dp"
-                            android:textColor="@color/reclip_bg" />
+                            android:textColor="@color/reclip_bg"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
-
-                    <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:id="@+id/fetchProgress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:indeterminate="true"
-                        android:visibility="gone"
-                        app:indicatorColor="@color/reclip_teal"
-                        app:trackColor="@color/reclip_surface_variant"
-                        app:trackCornerRadius="4dp" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
 
-            <!-- Actions -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/downloadAllButton"
-                style="@style/Widget.Material3.Button.TonalButton"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/download_all"
-                android:visibility="gone"
-                app:backgroundTint="@color/reclip_purple_accent"
-                app:cornerRadius="20dp"
-                android:textColor="@color/reclip_bg" />
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/fetchProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    app:indicatorColor="@color/reclip_cyan_bright"
+                    app:trackColor="@color/reclip_surface_variant"
+                    app:trackCornerRadius="4dp" />
+            </LinearLayout>
 
-            <!-- Content -->
             <TextView
-                android:id="@+id/emptyState"
+                android:id="@+id/downloadAllButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_download_all"
+                android:paddingHorizontal="18dp"
+                android:paddingVertical="10dp"
+                android:text="@string/download_all"
+                android:textColor="@color/reclip_white"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/recentHeaderRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="64dp"
-                android:gravity="center"
-                android:text="@string/empty_state"
-                android:textColor="@color/reclip_muted"
-                android:textSize="14sp" />
+                android:layout_marginTop="30dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/recent_grabs"
+                    android:textColor="@color/reclip_white"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_list"
+                    android:tint="@color/reclip_white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/emptyStateContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="46dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="104dp"
+                    android:layout_height="104dp">
+
+                    <ImageView
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_empty_state"
+                        android:tint="@color/reclip_teal" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/empty_state"
+                    android:textColor="@color/reclip_white"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:nestedScrollingEnabled="false" />
-
+                android:layout_marginTop="18dp"
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="104dp"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="18dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_bottom_nav"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="34dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:id="@+id/homeNavButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_home"
+                android:tint="@color/reclip_muted" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="84dp"
+                android:layout_height="1dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/settingsNavButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_settings"
+                android:tint="@color/reclip_muted" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/grabsNavButton"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="top|center_horizontal"
+            android:background="@drawable/bg_nav_center"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_grabs"
+                android:tint="@color/reclip_bg" />
+        </FrameLayout>
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Dark Purple Palette -->
-    <color name="reclip_bg">#0F0D13</color>
-    <color name="reclip_surface">#1A1721</color>
-    <color name="reclip_surface_variant">#25212E</color>
+    <color name="reclip_bg">#171A20</color>
+    <color name="reclip_bg_deep">#12141A</color>
+    <color name="reclip_surface">#31343D</color>
+    <color name="reclip_surface_variant">#3A3E47</color>
+    <color name="reclip_surface_soft">#2B2F37</color>
+    <color name="reclip_glass_top">#66424753</color>
+    <color name="reclip_glass_bottom">#8C2A2E35</color>
+    <color name="reclip_panel_stroke">#4C55ECFF</color>
+    <color name="reclip_panel_stroke_soft">#2687F5FF</color>
+    <color name="reclip_glow_cyan">#3A23E2FF</color>
+    <color name="reclip_glow_purple">#2EA95FFF</color>
+    <color name="reclip_glow_blue">#28106BFF</color>
+    <color name="reclip_teal">#16E7FF</color>
+    <color name="reclip_teal_dark">#09A9E5</color>
+    <color name="reclip_cyan_bright">#1EF2FF</color>
+    <color name="reclip_purple_accent">#B862FF</color>
+    <color name="reclip_blue_accent">#0EA8FF</color>
+    <color name="reclip_success">#11DCC7</color>
+    <color name="reclip_white">#F7F8FC</color>
+    <color name="reclip_muted">#ADB3C4</color>
+    <color name="reclip_muted_soft">#7E8595</color>
+    <color name="reclip_error">#FF6D86</color>
+    <color name="reclip_border">#2A313B</color>
+    <color name="reclip_dark_button">#3B3F48</color>
+    <color name="reclip_dark_button_border">#444A55</color>
+    <color name="reclip_bottom_nav">#7A262B34</color>
+    <color name="reclip_bottom_nav_border">#2EDCFBFF</color>
+    <color name="reclip_overlay">#A615171D</color>
+    <color name="reclip_thumb_start">#4B5362</color>
+    <color name="reclip_thumb_end">#2B3038</color>
 
-    <!-- Accents -->
-    <color name="reclip_teal">#00DAC6</color>
-    <color name="reclip_teal_dark">#018786</color>
-    <color name="reclip_purple_accent">#BB86FC</color>
-
-    <!-- Text and States -->
-    <color name="reclip_white">#F2F0F5</color>
-    <color name="reclip_muted">#8E889A</color>
-    <color name="reclip_error">#CF6679</color>
-    <color name="reclip_border">#332D41</color>
-
-    <!-- Legacy/Standard -->
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>
 </resources>

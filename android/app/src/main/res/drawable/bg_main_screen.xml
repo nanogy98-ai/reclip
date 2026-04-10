@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:endColor="@color/reclip_bg_deep"
+                android:startColor="@color/reclip_bg" />
+        </shape>
+    </item>
+    <item android:gravity="top|start">
+        <shape android:shape="oval">
+            <size
+                android:width="320dp"
+                android:height="320dp" />
+            <gradient
+                android:centerColor="@color/reclip_glow_purple"
+                android:endColor="@android:color/transparent"
+                android:gradientRadius="180dp"
+                android:startColor="@color/reclip_glow_purple"
+                android:type="radial" />
+        </shape>
+    </item>
+    <item android:gravity="top|end">
+        <shape android:shape="oval">
+            <size
+                android:width="280dp"
+                android:height="280dp" />
+            <gradient
+                android:centerColor="@color/reclip_glow_cyan"
+                android:endColor="@android:color/transparent"
+                android:gradientRadius="160dp"
+                android:startColor="@color/reclip_glow_cyan"
+                android:type="radial" />
+        </shape>
+    </item>
+    <item android:gravity="bottom|center_horizontal">
+        <shape android:shape="oval">
+            <size
+                android:width="380dp"
+                android:height="220dp" />
+            <gradient
+                android:centerColor="@color/reclip_glow_blue"
+                android:endColor="@android:color/transparent"
+                android:gradientRadius="220dp"
+                android:startColor="@color/reclip_glow_blue"
+                android:type="radial" />
+        </shape>
+    </item>
+</layer-list>

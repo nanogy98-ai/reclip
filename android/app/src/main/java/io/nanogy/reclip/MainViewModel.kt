@@ -133,6 +133,7 @@ class MainViewModel(
                 updateClip(clipId) {
                     it.copy(
                         title = details.title,
+                        thumbnailUrl = details.thumbnailUrl,
                         uploader = details.uploader,
                         extractor = details.extractor,
                         durationSeconds = details.durationSeconds,

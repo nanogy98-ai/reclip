@@ -47,6 +47,7 @@ class ReclipRepository(
 
             ClipDetails(
                 title = info.title.orEmpty().ifBlank { "Untitled clip" },
+                thumbnailUrl = info.thumbnail?.takeIf { it.isNotBlank() },
                 uploader = info.uploader.orEmpty(),
                 extractor = info.extractorKey ?: info.extractor.orEmpty(),
                 durationSeconds = info.duration.takeIf { it > 0 },

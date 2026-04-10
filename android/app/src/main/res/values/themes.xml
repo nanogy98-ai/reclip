@@ -2,10 +2,10 @@
     <style name="Theme.Reclip" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/reclip_teal</item>
         <item name="colorOnPrimary">@color/reclip_bg</item>
-        <item name="colorPrimaryContainer">@color/reclip_teal_dark</item>
+        <item name="colorPrimaryContainer">@color/reclip_blue_accent</item>
         <item name="colorOnPrimaryContainer">@color/reclip_white</item>
         <item name="colorSecondary">@color/reclip_purple_accent</item>
-        <item name="colorSurface">@color/reclip_surface</item>
+        <item name="colorSurface">@color/reclip_surface_soft</item>
         <item name="colorSurfaceVariant">@color/reclip_surface_variant</item>
         <item name="colorOnSurface">@color/reclip_white</item>
         <item name="colorOnSurfaceVariant">@color/reclip_muted</item>
@@ -15,14 +15,15 @@
         <item name="android:statusBarColor">@color/reclip_bg</item>
         <item name="android:navigationBarColor">@color/reclip_bg</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
         <item name="materialCardViewStyle">@style/Widget.Reclip.Card</item>
     </style>
 
     <style name="Widget.Reclip.Card" parent="Widget.Material3.CardView.Elevated">
-        <item name="strokeColor">@color/reclip_border</item>
+        <item name="strokeColor">@color/reclip_panel_stroke_soft</item>
         <item name="strokeWidth">1dp</item>
-        <item name="cardBackgroundColor">@color/reclip_surface</item>
-        <item name="cardCornerRadius">24dp</item>
+        <item name="cardBackgroundColor">@color/reclip_surface_soft</item>
+        <item name="cardCornerRadius">28dp</item>
         <item name="cardElevation">0dp</item>
     </style>
- </resources>
+</resources>

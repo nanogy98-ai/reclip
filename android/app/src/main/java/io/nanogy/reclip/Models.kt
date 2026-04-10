@@ -26,6 +26,7 @@ data class ClipItem(
     val id: String,
     val url: String,
     val title: String = "Fetching details…",
+    val thumbnailUrl: String? = null,
     val uploader: String = "",
     val extractor: String = "",
     val durationSeconds: Int? = null,
@@ -41,6 +42,7 @@ data class ClipItem(
 
 data class ClipDetails(
     val title: String,
+    val thumbnailUrl: String?,
     val uploader: String,
     val extractor: String,
     val durationSeconds: Int?,

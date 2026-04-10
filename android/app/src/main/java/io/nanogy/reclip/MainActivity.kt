@@ -2,8 +2,11 @@ package io.nanogy.reclip
 
 import android.Manifest
 import android.content.ActivityNotFoundException
+import android.content.ClipboardManager
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
+import androidx.core.view.doOnLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -66,6 +70,8 @@ class MainActivity : AppCompatActivity() {
             adapter = clipAdapter
         }
 
+        applyHeroGradient()
+
         binding.modeToggle.check(binding.videoButton.id)
         binding.modeToggle.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (!isChecked) return@addOnButtonCheckedListener
@@ -81,6 +87,10 @@ class MainActivity : AppCompatActivity() {
             viewModel.fetchUrls(binding.urlInput.text?.toString().orEmpty())
         }
 
+        binding.pasteButton.setOnClickListener {
+            pasteFromClipboard()
+        }
+
         binding.downloadAllButton.setOnClickListener {
             if (ensureDownloadAccess()) {
                 viewModel.downloadAll()
@@ -90,17 +100,35 @@ class MainActivity : AppCompatActivity() {
         binding.permissionButton.setOnClickListener {
             requestStorageAccess()
         }
+
+        binding.homeNavButton.setOnClickListener {
+            binding.contentScroll.smoothScrollTo(0, 0)
+        }
+
+        binding.grabsNavButton.setOnClickListener {
+            binding.contentScroll.post {
+                binding.contentScroll.smoothScrollTo(0, binding.recyclerView.top)
+            }
+        }
+
+        binding.settingsNavButton.setOnClickListener {
+            Toast.makeText(this, R.string.settings_coming_soon, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun bindState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
+                    val hasClips = state.clips.isNotEmpty()
+
                     clipAdapter.mode = state.mode
                     clipAdapter.submitList(state.clips)
 
                     binding.fetchProgress.isVisible = state.isFetching
-                    binding.emptyState.isVisible = !state.isFetching && state.clips.isEmpty()
+                    binding.emptyStateContainer.isVisible = !state.isFetching && !hasClips
+                    binding.recentHeaderRow.isVisible = hasClips
+                    binding.recyclerView.isVisible = hasClips
                     binding.downloadAllButton.isVisible =
                         state.clips.count { it.status == ClipStatus.READY || it.status == ClipStatus.ERROR } > 1
                 }
@@ -212,6 +240,42 @@ class MainActivity : AppCompatActivity() {
     private fun refreshStorageBanner() {
         val needsAccess = !hasStorageAccess()
         binding.permissionCard.isVisible = needsAccess
+    }
+
+    private fun pasteFromClipboard() {
+        val clipboard = getSystemService(ClipboardManager::class.java)
+        val pastedText = clipboard?.primaryClip
+            ?.takeIf { it.itemCount > 0 }
+            ?.getItemAt(0)
+            ?.coerceToText(this)
+            ?.toString()
+            ?.trim()
+
+        if (pastedText.isNullOrBlank()) {
+            Toast.makeText(this, R.string.paste_empty, Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        binding.urlInput.setText(pastedText)
+        binding.urlInput.setSelection(binding.urlInput.text?.length ?: 0)
+    }
+
+    private fun applyHeroGradient() {
+        binding.mainTitle.doOnLayout {
+            binding.mainTitle.paint.shader = LinearGradient(
+                0f,
+                0f,
+                0f,
+                binding.mainTitle.height.toFloat(),
+                intArrayOf(
+                    ContextCompat.getColor(this, R.color.reclip_purple_accent),
+                    ContextCompat.getColor(this, R.color.reclip_cyan_bright),
+                ),
+                floatArrayOf(0f, 1f),
+                Shader.TileMode.CLAMP,
+            )
+            binding.mainTitle.invalidate()
+        }
     }
 
     private fun consumeIncomingIntent(intent: Intent?) {
