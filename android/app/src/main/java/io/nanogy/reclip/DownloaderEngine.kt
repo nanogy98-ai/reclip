@@ -85,7 +85,7 @@ object DownloaderEngine {
         }
 
         return File(
-            File(root, "ReClip"),
+            File(root, APP_FOLDER_NAME_SAFE),
             child,
         )
     }
@@ -113,4 +113,5 @@ object DownloaderEngine {
     private const val PREFS_NAME = "reclip_android"
     private const val KEY_LAST_UPDATE_CHECK_AT = "last_ytdlp_update_check_at"
     private const val UPDATE_INTERVAL_MS = 24L * 60L * 60L * 1000L
+    private const val APP_FOLDER_NAME_SAFE = "GsVideoGrabber"
 }

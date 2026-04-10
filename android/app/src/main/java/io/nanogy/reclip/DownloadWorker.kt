@@ -68,7 +68,7 @@ class DownloadWorker(
                 return@withContext failureResult("Could not create the temporary download folder.")
             }
 
-            val safeTitle = DownloaderEngine.sanitizeTitle(rawTitle, "reclip")
+            val safeTitle = DownloaderEngine.sanitizeTitle(rawTitle, "g-video-grabber")
             val baseName = "$safeTitle-$requestId"
             val outputTemplate = File(outputDirectory, "$baseName.%(ext)s").absolutePath
             val request = DownloaderEngine.buildDownloadRequest(url, mode, formatId, outputTemplate)
@@ -228,11 +228,11 @@ class DownloadWorker(
         val mimeType = mimeTypeFor(displayName, mode)
         val (collection, relativePath) = when (mode) {
             DownloadMode.VIDEO -> {
-                MediaStore.Video.Media.EXTERNAL_CONTENT_URI to "${Environment.DIRECTORY_MOVIES}/ReClip"
+                MediaStore.Video.Media.EXTERNAL_CONTENT_URI to "${Environment.DIRECTORY_MOVIES}/Gs Video Grabber"
             }
 
             DownloadMode.AUDIO -> {
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI to "${Environment.DIRECTORY_MUSIC}/ReClip"
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI to "${Environment.DIRECTORY_MUSIC}/Gs Video Grabber"
             }
         }
 
@@ -273,7 +273,7 @@ class DownloadWorker(
             DownloadMode.AUDIO -> Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
         }
 
-        val outputDirectory = File(baseDirectory, "ReClip").apply { mkdirs() }
+        val outputDirectory = File(baseDirectory, "Gs Video Grabber").apply { mkdirs() }
         if (!outputDirectory.exists()) {
             throw IOException("Could not create public media folder.")
         }

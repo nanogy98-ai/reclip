@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">G\'s Video Grabber</string>
-    <string name="toolbar_subtitle">Paste links, pick MP4 or MP3, and save them on-device.</string>
+    <string name="toolbar_subtitle">Grab MP4s and MP3s from YouTube, TikTok, iPlayer, and more.</string>
     <string name="url_hint">Paste one or more video URLs</string>
     <string name="input_helper">Multiple links? Separate them with spaces, commas, or new lines.</string>
     <string name="mode_video">MP4</string>
@@ -8,10 +8,10 @@
     <string name="fetch">Fetch</string>
     <string name="download_all">Download All</string>
     <string name="grant_access">Grant Access</string>
-    <string name="storage_banner_title">Storage access is needed before downloads can be saved to your Downloads folder.</string>
-    <string name="storage_banner_body">Videos save into Movies/ReClip so Gallery apps can pick them up. MP3s save into Music/ReClip.</string>
-    <string name="empty_state">Fetched clips will appear here.</string>
-    <string name="download_folder">Videos save to Movies/ReClip for Gallery. MP3s save to Music/ReClip.</string>
+    <string name="storage_banner_title">On older Android versions, storage access is needed before downloads can be saved.</string>
+    <string name="storage_banner_body">Videos save into Movies/Gs Video Grabber so Gallery apps can pick them up. MP3s save into Music/Gs Video Grabber.</string>
+    <string name="empty_state">Your grabs will appear here.</string>
+    <string name="download_folder">Videos save to Movies/Gs Video Grabber. MP3s save to Music/Gs Video Grabber.</string>
     <string name="status_fetching">Fetching details…</string>
     <string name="status_ready">Ready to download</string>
     <string name="status_downloading">Downloading…</string>
@@ -25,7 +25,7 @@
     <string name="download_preparing">Preparing download…</string>
     <string name="download_running">Downloading media…</string>
     <string name="download_complete">Download complete</string>
-    <string name="download_channel_name">ReClip downloads</string>
-    <string name="download_channel_description">Shows progress while ReClip saves media on your phone.</string>
+    <string name="download_channel_name">G\'s Video Grabber downloads</string>
+    <string name="download_channel_description">Shows progress while G\'s Video Grabber saves media on your phone.</string>
     <string name="permission_notifications_rationale">Notifications help show download progress when the app is in the background.</string>
 </resources>

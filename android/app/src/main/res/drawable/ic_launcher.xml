@@ -11,19 +11,12 @@
         android:fillColor="@color/reclip_purple_accent"
         android:pathData="M0,0 L108,0 L108,44 C82,38 62,42 40,60 C22,74 10,90 0,108 Z" />
     <path
-        android:fillColor="@color/reclip_purple_accent"
-        android:fillAlpha="0.68"
-        android:pathData="M62,24C42.1,24 26,40.1 26,60C26,79.9 42.1,96 62,96C81.9,96 98,79.9 98,60C98,40.1 81.9,24 62,24Z" />
-    <path
         android:fillColor="@color/reclip_teal"
-        android:pathData="M48,14C28.1,14 12,30.1 12,50C12,69.9 28.1,86 48,86C67.9,86 84,69.9 84,50C84,30.1 67.9,14 48,14Z" />
-    <path
-        android:fillColor="@color/reclip_white"
-        android:pathData="M45,29C43.9,29 43,29.9 43,31V47H34.5C32.7,47 31.8,49.2 33,50.5L46.9,65.4C47.7,66.2 49,66.2 49.8,65.4L63.7,50.5C64.9,49.2 64,47 62.2,47H53V31C53,29.9 52.1,29 51,29Z" />
+        android:pathData="M56,16C35.6,16 19,32.4 19,52.8C19,73.2 35.6,89.8 56,89.8C76.4,89.8 93,73.2 93,52.8V48.6H64.5V58H81.2C78.2,68.9 68.6,76.2 56.2,76.2C42.6,76.2 31.6,65.6 31.6,52.8C31.6,39.8 42.3,29.6 55.8,29.6C62.8,29.6 68.5,32.2 72.5,36.8L81.4,28.8C75.3,20.7 66.5,16 56,16Z" />
     <path
         android:fillColor="@color/reclip_purple_accent"
-        android:pathData="M48,48V65.6L39.4,56.3Z" />
+        android:pathData="M63,37C61.9,37 61,37.9 61,39V54H51.8C49.9,54 48.9,56.3 50.2,57.7L65.4,73.6C66.2,74.5 67.7,74.5 68.5,73.6L83.8,57.7C85.1,56.3 84.1,54 82.2,54H73V39C73,37.9 72.1,37 71,37Z" />
     <path
         android:fillColor="@color/reclip_white"
-        android:pathData="M36,70C34.3,70 33,71.3 33,73V75C33,76.7 34.3,78 36,78H64C65.7,78 67,76.7 67,75V73C67,71.3 65.7,70 64,70Z" />
+        android:pathData="M57,77C55.5,77 54.3,78.2 54.3,79.7V82.3C54.3,83.8 55.5,85 57,85H77.2C78.7,85 80,83.8 80,82.3V79.7C80,78.2 78.7,77 77.2,77Z" />
 </vector>
