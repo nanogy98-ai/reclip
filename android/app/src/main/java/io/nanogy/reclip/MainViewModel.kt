@@ -188,8 +188,8 @@ class MainViewModel(
                             it.copy(
                                 status = ClipStatus.DONE,
                                 progress = 100,
-                                statusLine = getApplication<Application>()
-                                    .getString(R.string.status_finished),
+                                statusLine = info.outputData.getString(DownloadWorker.KEY_STATUS_LINE)
+                                    ?: getApplication<Application>().getString(R.string.status_finished),
                                 downloadedPath = info.outputData.getString(DownloadWorker.KEY_FILE_PATH),
                                 workId = null,
                             )

@@ -120,7 +120,7 @@ class ClipAdapter(
                 ClipStatus.READY -> item.statusLine ?: binding.root.context.getString(R.string.status_ready)
                 ClipStatus.INFO_ERROR -> item.statusLine ?: binding.root.context.getString(R.string.status_info_error)
                 ClipStatus.DOWNLOADING -> item.statusLine ?: binding.root.context.getString(R.string.status_downloading)
-                ClipStatus.DONE -> item.downloadedPath ?: binding.root.context.getString(R.string.status_finished)
+                ClipStatus.DONE -> item.statusLine ?: binding.root.context.getString(R.string.status_finished)
                 ClipStatus.ERROR -> item.errorMessage ?: binding.root.context.getString(R.string.status_error)
             }
         }

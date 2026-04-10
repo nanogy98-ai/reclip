@@ -79,20 +79,29 @@ class DownloadWorker(
                     ?.toInt()
                     ?.coerceIn(0, 99)
                     ?: 0
-                val statusLine = line.trim().ifBlank {
-                    applicationContext.getString(R.string.download_running)
-                }
+                val statusLine = friendlyProgressMessage(mode, line)
                 setProgressAsync(
                     workDataOf(
                         KEY_PROGRESS to percent,
                         KEY_STATUS_LINE to statusLine,
                     ),
                 )
+                setForegroundAsync(createForegroundInfo(percent, statusLine))
                 notifyIfAllowed(percent, statusLine, isComplete = false)
             }
 
             val completedFile = DownloaderEngine.findCompletedFile(outputDirectory, baseName)
                 ?: return@withContext failureResult("Download finished but the output file could not be found.")
+
+            val savingStatus = savingStatusFor(mode)
+            setProgressAsync(
+                workDataOf(
+                    KEY_PROGRESS to 99,
+                    KEY_STATUS_LINE to savingStatus,
+                ),
+            )
+            setForegroundAsync(createForegroundInfo(99, savingStatus))
+            notifyIfAllowed(progress = 99, statusText = savingStatus, isComplete = false)
 
             val savedLocation = publishToMediaLibrary(
                 sourceFile = completedFile,
@@ -100,9 +109,10 @@ class DownloadWorker(
                 mode = mode,
             )
 
+            val completionStatus = completionStatusFor(mode)
             notifyIfAllowed(
                 progress = 100,
-                statusText = applicationContext.getString(R.string.download_complete),
+                statusText = completionStatus,
                 isComplete = true,
             )
 
@@ -110,6 +120,7 @@ class DownloadWorker(
                 workDataOf(
                     KEY_FILE_NAME to completedFile.name,
                     KEY_FILE_PATH to savedLocation,
+                    KEY_STATUS_LINE to completionStatus,
                 ),
             )
         } catch (cancelled: YoutubeDL.CanceledException) {
@@ -297,6 +308,51 @@ class DownloadWorker(
             extension == "mp4" -> "video/mp4"
             mode == DownloadMode.AUDIO -> "audio/*"
             else -> "video/*"
+        }
+    }
+
+    private fun friendlyProgressMessage(mode: DownloadMode, rawLine: String): String {
+        val normalized = rawLine.trim().lowercase()
+        if (normalized.isBlank()) {
+            return defaultRunningStatus(mode)
+        }
+
+        return when {
+            normalized.contains("merging formats") ||
+                normalized.contains("remuxing") ||
+                normalized.contains("fixup") ||
+                normalized.contains("ffmpeg") && mode == DownloadMode.VIDEO ||
+                normalized.contains("metadata") ->
+                applicationContext.getString(R.string.download_phase_finalizing_video)
+
+            normalized.contains("extractaudio") ||
+                normalized.contains("extracting audio") ||
+                normalized.contains("converting") ||
+                normalized.contains("ffmpeg") && mode == DownloadMode.AUDIO ->
+                applicationContext.getString(R.string.download_phase_extracting_audio)
+
+            else -> defaultRunningStatus(mode)
+        }
+    }
+
+    private fun defaultRunningStatus(mode: DownloadMode): String {
+        return when (mode) {
+            DownloadMode.VIDEO -> applicationContext.getString(R.string.download_phase_video)
+            DownloadMode.AUDIO -> applicationContext.getString(R.string.download_phase_audio)
+        }
+    }
+
+    private fun savingStatusFor(mode: DownloadMode): String {
+        return when (mode) {
+            DownloadMode.VIDEO -> applicationContext.getString(R.string.download_phase_saving_video)
+            DownloadMode.AUDIO -> applicationContext.getString(R.string.download_phase_saving_audio)
+        }
+    }
+
+    private fun completionStatusFor(mode: DownloadMode): String {
+        return when (mode) {
+            DownloadMode.VIDEO -> applicationContext.getString(R.string.download_finished_video)
+            DownloadMode.AUDIO -> applicationContext.getString(R.string.download_finished_audio)
         }
     }
 

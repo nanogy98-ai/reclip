@@ -48,32 +48,41 @@
             android:layout_marginTop="20dp"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/reclip_white"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/progressLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:textColor="@color/reclip_muted"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
+
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:max="100"
                 android:visibility="gone"
                 app:indicatorColor="@color/reclip_teal"
                 app:trackColor="@color/reclip_surface_variant"
                 app:trackCornerRadius="4dp" />
-
-            <TextView
-                android:id="@+id/status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:textColor="@color/reclip_white"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/progressLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/reclip_muted"
-                android:textSize="12sp"
-                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/error"
