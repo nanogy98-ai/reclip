@@ -32,7 +32,11 @@ Open **http://localhost:8899**.
 
 ## Android App
 
-This repo now also includes a native Android client in [`android/`](./android) that runs `yt-dlp` directly on-device and saves finished files into **Download/ReClip**.
+This repo now also includes a native Android client in [`android/`](./android) that runs `yt-dlp` directly on-device.
+
+- Video downloads are saved into **Movies/ReClip** so Android gallery apps can index them.
+- MP3 downloads are saved into **Music/ReClip**.
+- The app keeps using `yt-dlp` on-device instead of a site whitelist, and it performs a background check for the latest stable `yt-dlp` release so support for sites like YouTube, TikTok, and BBC iPlayer stays closer to the desktop/web version.
 
 ### Build the APK
 
@@ -68,7 +72,7 @@ android/app/build/outputs/apk/debug/app-universal-debug.apk
 ### Android Notes
 
 - The Android client supports the same core flow as the web app: paste URLs, fetch info, choose MP4 or MP3, then download on-device.
-- On Android 11 and later, you will be prompted to allow file access so ReClip can save media into the public Downloads folder.
+- On Android 11 and later, you will be prompted to allow file access so ReClip can save media into the public Movies and Music folders.
 - The Android app is aimed at direct installs / sideloading rather than Play Store release hardening.
 
 Or with Docker:

@@ -9,9 +9,9 @@
     <string name="download_all">Download All</string>
     <string name="grant_access">Grant Access</string>
     <string name="storage_banner_title">Storage access is needed before downloads can be saved to your Downloads folder.</string>
-    <string name="storage_banner_body">ReClip saves finished files into Download/ReClip so they stay easy to find on your phone.</string>
+    <string name="storage_banner_body">Videos save into Movies/ReClip so Gallery apps can pick them up. MP3s save into Music/ReClip.</string>
     <string name="empty_state">Fetched clips will appear here.</string>
-    <string name="download_folder">Saved to Download/ReClip</string>
+    <string name="download_folder">Videos save to Movies/ReClip for Gallery. MP3s save to Music/ReClip.</string>
     <string name="status_fetching">Fetching details…</string>
     <string name="status_ready">Ready to download</string>
     <string name="status_downloading">Downloading…</string>

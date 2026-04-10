@@ -12,7 +12,10 @@ class ReclipApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         appScope.launch {
-            runCatching { DownloaderEngine.ensureReady(this@ReclipApplication) }
+            runCatching {
+                DownloaderEngine.ensureReady(this@ReclipApplication)
+                DownloaderEngine.maybeRefreshExtractor(this@ReclipApplication)
+            }
         }
     }
 }

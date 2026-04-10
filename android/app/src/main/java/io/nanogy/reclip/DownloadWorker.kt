@@ -52,13 +52,10 @@ class DownloadWorker(
                 }
             }
 
-            val outputDirectory = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                OUTPUT_DIR_NAME,
-            ).apply { mkdirs() }
+            val outputDirectory = DownloaderEngine.outputDirectoryFor(mode).apply { mkdirs() }
 
             if (!outputDirectory.exists()) {
-                return@withContext failureResult("Could not create the Downloads/ReClip folder.")
+                return@withContext failureResult("Could not create the public media folder for this download.")
             }
 
             val safeTitle = DownloaderEngine.sanitizeTitle(rawTitle, "reclip")
@@ -191,6 +188,5 @@ class DownloadWorker(
         const val KEY_ERROR = "error"
 
         private const val CHANNEL_ID = "reclip_downloads"
-        private const val OUTPUT_DIR_NAME = "ReClip"
     }
 }
