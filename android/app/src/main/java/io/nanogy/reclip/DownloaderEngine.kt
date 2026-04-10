@@ -15,6 +15,8 @@ object DownloaderEngine {
     private val updateLock = Mutex()
     @Volatile
     private var initialized = false
+    @Volatile
+    private var tempRoot: File? = null
 
     suspend fun ensureReady(context: Context) {
         if (initialized) return
@@ -22,6 +24,8 @@ object DownloaderEngine {
             if (initialized) return
             YoutubeDL.init(context.applicationContext)
             FFmpeg.init(context.applicationContext)
+            tempRoot = context.applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+                ?: context.applicationContext.cacheDir
             initialized = true
         }
     }
@@ -74,14 +78,15 @@ object DownloaderEngine {
     }
 
     fun outputDirectoryFor(mode: DownloadMode): File {
-        val publicDir = when (mode) {
-            DownloadMode.VIDEO -> Environment.DIRECTORY_MOVIES
-            DownloadMode.AUDIO -> Environment.DIRECTORY_MUSIC
+        val root = requireNotNull(tempRoot) { "Downloader engine not initialized" }
+        val child = when (mode) {
+            DownloadMode.VIDEO -> "video"
+            DownloadMode.AUDIO -> "audio"
         }
 
         return File(
-            Environment.getExternalStoragePublicDirectory(publicDir),
-            "ReClip",
+            File(root, "ReClip"),
+            child,
         )
     }
 

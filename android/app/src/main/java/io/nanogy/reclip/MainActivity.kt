@@ -7,8 +7,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.Settings
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -136,15 +134,27 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        val file = File(path)
-        if (!file.exists()) {
-            Toast.makeText(this, "File no longer exists at $path", Toast.LENGTH_LONG).show()
-            return
+        val uri = if (path.startsWith("content://")) {
+            Uri.parse(path)
+        } else {
+            val file = File(path)
+            if (!file.exists()) {
+                Toast.makeText(this, "File no longer exists at $path", Toast.LENGTH_LONG).show()
+                return
+            }
+            FileProvider.getUriForFile(this, "$packageName.provider", file)
         }
 
-        val uri = FileProvider.getUriForFile(this, "$packageName.provider", file)
-        val extension = file.extension.lowercase()
+        val extension = if (path.startsWith("content://")) {
+            contentResolver.getType(uri)
+                ?.substringAfterLast('/')
+                ?.lowercase()
+                .orEmpty()
+        } else {
+            File(path).extension.lowercase()
+        }
         val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+            ?: contentResolver.getType(uri)
             ?: "application/octet-stream"
 
         val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -173,7 +183,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun hasStorageAccess(): Boolean {
         return when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> Environment.isExternalStorageManager()
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> true
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
                 ContextCompat.checkSelfPermission(
                     this,
@@ -186,21 +196,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestStorageAccess() {
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
-                val appUri = Uri.parse("package:$packageName")
-                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, appUri)
-                val fallbackIntent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
-                try {
-                    startActivity(intent)
-                } catch (_: ActivityNotFoundException) {
-                    startActivity(fallbackIntent)
-                }
-            }
-
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
-                storagePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            }
+        if (Build.VERSION.SDK_INT in Build.VERSION_CODES.M until Build.VERSION_CODES.Q) {
+            storagePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     }
 

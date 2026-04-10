@@ -1,14 +1,20 @@
 package io.nanogy.reclip
 
+import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.provider.MediaStore
 import android.media.MediaScannerConnection
 import android.os.Build
 import android.os.Environment
+import androidx.core.content.ContextCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.CoroutineWorker
@@ -21,6 +27,7 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.job
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.IOException
 import kotlin.math.abs
 
 class DownloadWorker(
@@ -52,10 +59,12 @@ class DownloadWorker(
                 }
             }
 
-            val outputDirectory = DownloaderEngine.outputDirectoryFor(mode).apply { mkdirs() }
+            val outputDirectory = DownloaderEngine.outputDirectoryFor(mode).apply {
+                mkdirs()
+            }
 
             if (!outputDirectory.exists()) {
-                return@withContext failureResult("Could not create the public media folder for this download.")
+                return@withContext failureResult("Could not create the temporary download folder.")
             }
 
             val safeTitle = DownloaderEngine.sanitizeTitle(rawTitle, "reclip")
@@ -78,35 +87,28 @@ class DownloadWorker(
                         KEY_STATUS_LINE to statusLine,
                     ),
                 )
-                NotificationManagerCompat.from(applicationContext).notify(
-                    notificationId,
-                    buildNotification(percent, statusLine, isComplete = false),
-                )
+                notifyIfAllowed(percent, statusLine, isComplete = false)
             }
 
             val completedFile = DownloaderEngine.findCompletedFile(outputDirectory, baseName)
                 ?: return@withContext failureResult("Download finished but the output file could not be found.")
 
-            MediaScannerConnection.scanFile(
-                applicationContext,
-                arrayOf(completedFile.absolutePath),
-                null,
-                null,
+            val savedLocation = publishToMediaLibrary(
+                sourceFile = completedFile,
+                displayName = completedFile.name,
+                mode = mode,
             )
 
-            NotificationManagerCompat.from(applicationContext).notify(
-                notificationId,
-                buildNotification(
-                    progress = 100,
-                    statusText = applicationContext.getString(R.string.download_complete),
-                    isComplete = true,
-                ),
+            notifyIfAllowed(
+                progress = 100,
+                statusText = applicationContext.getString(R.string.download_complete),
+                isComplete = true,
             )
 
             androidx.work.ListenableWorker.Result.success(
                 workDataOf(
                     KEY_FILE_NAME to completedFile.name,
-                    KEY_FILE_PATH to completedFile.absolutePath,
+                    KEY_FILE_PATH to savedLocation,
                 ),
             )
         } catch (cancelled: YoutubeDL.CanceledException) {
@@ -117,7 +119,9 @@ class DownloadWorker(
     }
 
     private fun failureResult(message: String): androidx.work.ListenableWorker.Result {
-        NotificationManagerCompat.from(applicationContext).cancel(notificationId)
+        runCatching {
+            NotificationManagerCompat.from(applicationContext).cancel(notificationId)
+        }
         return androidx.work.ListenableWorker.Result.failure(
             workDataOf(KEY_ERROR to message),
         )
@@ -170,6 +174,121 @@ class DownloadWorker(
         }
 
         notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun notifyIfAllowed(
+        progress: Int,
+        statusText: String,
+        isComplete: Boolean,
+    ) {
+        if (!canPostNotifications()) return
+
+        runCatching {
+            NotificationManagerCompat.from(applicationContext).notify(
+                notificationId,
+                buildNotification(progress, statusText, isComplete),
+            )
+        }
+    }
+
+    private fun canPostNotifications(): Boolean {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+            ContextCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.POST_NOTIFICATIONS,
+            ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun publishToMediaLibrary(
+        sourceFile: File,
+        displayName: String,
+        mode: DownloadMode,
+    ): String {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            insertIntoMediaStore(sourceFile, displayName, mode).toString()
+        } else {
+            copyToLegacyPublicFolder(sourceFile, displayName, mode)
+        }
+    }
+
+    private fun insertIntoMediaStore(
+        sourceFile: File,
+        displayName: String,
+        mode: DownloadMode,
+    ): Uri {
+        val mimeType = mimeTypeFor(displayName, mode)
+        val (collection, relativePath) = when (mode) {
+            DownloadMode.VIDEO -> {
+                MediaStore.Video.Media.EXTERNAL_CONTENT_URI to "${Environment.DIRECTORY_MOVIES}/ReClip"
+            }
+
+            DownloadMode.AUDIO -> {
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI to "${Environment.DIRECTORY_MUSIC}/ReClip"
+            }
+        }
+
+        val values = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, displayName)
+            put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
+            put(MediaStore.MediaColumns.RELATIVE_PATH, relativePath)
+            put(MediaStore.MediaColumns.IS_PENDING, 1)
+        }
+
+        val resolver = applicationContext.contentResolver
+        val itemUri = resolver.insert(collection, values)
+            ?: throw IOException("Failed to create media store record.")
+
+        try {
+            resolver.openOutputStream(itemUri)?.use { output ->
+                sourceFile.inputStream().use { input -> input.copyTo(output) }
+            } ?: throw IOException("Could not open media destination.")
+
+            values.clear()
+            values.put(MediaStore.MediaColumns.IS_PENDING, 0)
+            resolver.update(itemUri, values, null, null)
+            sourceFile.delete()
+            return itemUri
+        } catch (error: Exception) {
+            resolver.delete(itemUri, null, null)
+            throw error
+        }
+    }
+
+    private fun copyToLegacyPublicFolder(
+        sourceFile: File,
+        displayName: String,
+        mode: DownloadMode,
+    ): String {
+        val baseDirectory = when (mode) {
+            DownloadMode.VIDEO -> Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)
+            DownloadMode.AUDIO -> Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
+        }
+
+        val outputDirectory = File(baseDirectory, "ReClip").apply { mkdirs() }
+        if (!outputDirectory.exists()) {
+            throw IOException("Could not create public media folder.")
+        }
+
+        val targetFile = File(outputDirectory, displayName)
+        sourceFile.copyTo(targetFile, overwrite = true)
+        MediaScannerConnection.scanFile(
+            applicationContext,
+            arrayOf(targetFile.absolutePath),
+            arrayOf(mimeTypeFor(displayName, mode)),
+            null,
+        )
+        sourceFile.delete()
+        return targetFile.absolutePath
+    }
+
+    private fun mimeTypeFor(displayName: String, mode: DownloadMode): String {
+        val extension = displayName.substringAfterLast('.', "").lowercase()
+        return when {
+            extension == "mp3" -> "audio/mpeg"
+            extension == "mp4" -> "video/mp4"
+            mode == DownloadMode.AUDIO -> "audio/*"
+            else -> "video/*"
+        }
     }
 
     private val notificationId: Int
