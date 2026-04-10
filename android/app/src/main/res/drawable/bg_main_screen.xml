@@ -34,17 +34,4 @@
                 android:type="radial" />
         </shape>
     </item>
-    <item android:gravity="bottom|center_horizontal">
-        <shape android:shape="oval">
-            <size
-                android:width="380dp"
-                android:height="220dp" />
-            <gradient
-                android:centerColor="@color/reclip_glow_blue"
-                android:endColor="@android:color/transparent"
-                android:gradientRadius="220dp"
-                android:startColor="@color/reclip_glow_blue"
-                android:type="radial" />
-        </shape>
-    </item>
 </layer-list>

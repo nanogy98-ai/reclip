@@ -100,20 +100,6 @@ class MainActivity : AppCompatActivity() {
         binding.permissionButton.setOnClickListener {
             requestStorageAccess()
         }
-
-        binding.homeNavButton.setOnClickListener {
-            binding.contentScroll.smoothScrollTo(0, 0)
-        }
-
-        binding.grabsNavButton.setOnClickListener {
-            binding.contentScroll.post {
-                binding.contentScroll.smoothScrollTo(0, binding.recyclerView.top)
-            }
-        }
-
-        binding.settingsNavButton.setOnClickListener {
-            Toast.makeText(this, R.string.settings_coming_soon, Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun bindState() {
