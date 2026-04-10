@@ -9,6 +9,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.pm.ServiceInfo
 import android.net.Uri
 import android.provider.MediaStore
 import android.media.MediaScannerConnection
@@ -128,10 +129,18 @@ class DownloadWorker(
     }
 
     private fun createForegroundInfo(progress: Int, statusText: String): ForegroundInfo {
-        return ForegroundInfo(
-            notificationId,
-            buildNotification(progress, statusText, isComplete = false),
-        )
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ForegroundInfo(
+                notificationId,
+                buildNotification(progress, statusText, isComplete = false),
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC,
+            )
+        } else {
+            ForegroundInfo(
+                notificationId,
+                buildNotification(progress, statusText, isComplete = false),
+            )
+        }
     }
 
     private fun buildNotification(

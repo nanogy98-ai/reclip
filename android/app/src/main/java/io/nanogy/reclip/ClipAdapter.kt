@@ -62,14 +62,29 @@ class ClipAdapter(
 
             binding.formatGroup.isVisible = showFormats
             if (showFormats) {
-                item.formats.forEach { format ->
-                    val chip = Chip(binding.root.context).apply {
-                        text = format.label
-                        isCheckable = true
-                        isChecked = format.id == item.selectedFormatId
-                        setOnClickListener { onFormatSelected(item.id, format.id) }
+                val currentChipIds = (0 until binding.formatGroup.childCount).map { 
+                    binding.formatGroup.getChildAt(it).tag as? String 
+                }
+                val newFormatIds = item.formats.map { it.id }
+
+                if (currentChipIds != newFormatIds) {
+                    binding.formatGroup.removeAllViews()
+                    item.formats.forEach { format ->
+                        val chip = Chip(binding.root.context).apply {
+                            text = format.label
+                            tag = format.id
+                            isCheckable = true
+                            isChecked = format.id == item.selectedFormatId
+                            setOnClickListener { onFormatSelected(item.id, format.id) }
+                        }
+                        binding.formatGroup.addView(chip)
                     }
-                    binding.formatGroup.addView(chip)
+                } else {
+                    for (i in 0 until binding.formatGroup.childCount) {
+                        val chip = binding.formatGroup.getChildAt(i) as Chip
+                        val format = item.formats[i]
+                        chip.isChecked = format.id == item.selectedFormatId
+                    }
                 }
             }
 

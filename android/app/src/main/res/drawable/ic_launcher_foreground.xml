@@ -1,18 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="128dp"
-    android:height="128dp"
+    android:width="108dp"
+    android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
     <path
-        android:fillColor="@color/reclip_bg"
-        android:pathData="M0,0h108v108h-108z" />
-    <path
-        android:fillAlpha="0.16"
-        android:fillColor="@color/reclip_purple_accent"
-        android:pathData="M0,0 L108,0 L108,44 C82,38 62,42 40,60 C22,74 10,90 0,108 Z" />
-    <path
-        android:fillColor="@color/reclip_purple_accent"
         android:fillAlpha="0.68"
+        android:fillColor="@color/reclip_purple_accent"
         android:pathData="M62,24C42.1,24 26,40.1 26,60C26,79.9 42.1,96 62,96C81.9,96 98,79.9 98,60C98,40.1 81.9,24 62,24Z" />
     <path
         android:fillColor="@color/reclip_teal"

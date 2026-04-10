@@ -1,183 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/reclip_canvas"
-    android:orientation="vertical">
+    android:background="@color/reclip_bg"
+    android:fitsSystemWindows="true">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/reclip_canvas"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="8dp"
-        app:titleCentered="false"
-        app:titleTextColor="@color/reclip_ink"
-        app:subtitleTextColor="@color/reclip_muted" />
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="100dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingHorizontal="20dp"
-        android:paddingBottom="20dp">
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/permissionCard"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:visibility="gone"
-            app:cardCornerRadius="20dp">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="32dp">
 
-            <LinearLayout
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="120dp" />
+
+            <TextView
+                android:id="@+id/mainTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="18dp">
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textColor="@color/reclip_purple_accent"
+                android:textSize="42sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/storage_banner_title"
-                    android:textColor="@color/reclip_ink"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/storage_banner_body"
-                    android:textColor="@color/reclip_muted"
-                    android:textSize="13sp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/permissionButton"
-                    style="@style/Widget.Material3.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:text="@string/grant_access" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:cardCornerRadius="24dp">
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/toolbar_subtitle"
+                android:textColor="@color/reclip_muted"
+                android:textSize="14sp" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/url_hint"
-                    app:boxBackgroundMode="outline"
-                    app:helperText="@string/input_helper">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="48dp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/urlInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="top|start"
-                        android:inputType="textMultiLine|textUri"
-                        android:maxLines="6"
-                        android:minLines="3" />
-                </com.google.android.material.textfield.TextInputLayout>
+            <!-- Permission Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/permissionCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/reclip_surface"
+                app:strokeColor="@color/reclip_error"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-                    <com.google.android.material.button.MaterialButtonToggleGroup
-                        android:id="@+id/modeToggle"
-                        android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        app:singleSelection="true">
+                        android:text="@string/storage_banner_title"
+                        android:textColor="@color/reclip_white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/videoButton"
-                            style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/mode_video" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/audioButton"
-                            style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/mode_audio" />
-                    </com.google.android.material.button.MaterialButtonToggleGroup>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/storage_banner_body"
+                        android:textColor="@color/reclip_muted"
+                        android:textSize="13sp" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/fetchButton"
-                        style="@style/Widget.Material3.Button"
+                        android:id="@+id/permissionButton"
+                        style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="@string/fetch" />
+                        android:layout_marginTop="12dp"
+                        android:text="@string/grant_access"
+                        app:backgroundTint="@color/reclip_surface_variant"
+                        android:textColor="@color/reclip_teal" />
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.progressindicator.LinearProgressIndicator
-                    android:id="@+id/fetchProgress"
+            <!-- URL Input Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/reclip_surface"
+                app:cardElevation="8dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:indeterminate="true"
-                    android:visibility="gone" />
+                    android:orientation="vertical"
+                    android:padding="24dp">
 
-                <TextView
-                    android:id="@+id/folderHint"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/download_folder"
-                    android:textColor="@color/reclip_muted"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/url_hint"
+                        app:boxStrokeColor="@color/reclip_purple_accent"
+                        app:hintTextColor="@color/reclip_purple_accent"
+                        app:placeholderTextColor="@color/reclip_muted">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/downloadAllButton"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/download_all"
-            android:visibility="gone" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/urlInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine|textUri"
+                            android:maxLines="4"
+                            android:minLines="1"
+                            android:textColor="@color/reclip_white" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/emptyState"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="@string/empty_state"
-            android:textColor="@color/reclip_muted"
-            android:textSize="14sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_weight="1"
-            android:clipToPadding="false"
-            android:paddingBottom="24dp" />
-    </LinearLayout>
-</LinearLayout>
+                        <com.google.android.material.button.MaterialButtonToggleGroup
+                            android:id="@+id/modeToggle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:checkedButton="@+id/videoButton"
+                            app:selectionRequired="true"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/videoButton"
+                                style="@style/Widget.Material3.Button.TonalButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/mode_video"
+                                android:textColor="@color/mode_button_text"
+                                app:backgroundTint="@color/mode_button_bg"
+                                app:toggleCheckedStateOnClick="true" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/audioButton"
+                                style="@style/Widget.Material3.Button.TonalButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/mode_audio"
+                                android:textColor="@color/mode_button_text"
+                                app:backgroundTint="@color/mode_button_bg"
+                                app:toggleCheckedStateOnClick="true" />
+                        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/fetchButton"
+                            style="@style/Widget.Material3.Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/fetch"
+                            app:backgroundTint="@color/reclip_teal"
+                            app:cornerRadius="16dp"
+                            android:textColor="@color/reclip_bg" />
+                    </LinearLayout>
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/fetchProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:indeterminate="true"
+                        android:visibility="gone"
+                        app:indicatorColor="@color/reclip_teal"
+                        app:trackColor="@color/reclip_surface_variant"
+                        app:trackCornerRadius="4dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Actions -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/downloadAllButton"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/download_all"
+                android:visibility="gone"
+                app:backgroundTint="@color/reclip_purple_accent"
+                app:cornerRadius="20dp"
+                android:textColor="@color/reclip_bg" />
+
+            <!-- Content -->
+            <TextView
+                android:id="@+id/emptyState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:gravity="center"
+                android:text="@string/empty_state"
+                android:textColor="@color/reclip_muted"
+                android:textSize="14sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:nestedScrollingEnabled="false" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

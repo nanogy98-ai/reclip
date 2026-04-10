@@ -3,21 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    app:cardCornerRadius="22dp">
+    android:layout_marginBottom="16dp"
+    app:cardBackgroundColor="@color/reclip_surface"
+    app:cardCornerRadius="24dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/reclip_border">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="18dp">
+        android:padding="24dp">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/reclip_ink"
-            android:textSize="18sp"
+            android:textColor="@color/reclip_white"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
         <TextView
@@ -32,60 +35,73 @@
             android:id="@+id/url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="1"
             android:textColor="@color/reclip_muted"
-            android:textSize="12sp" />
+            android:textSize="11sp" />
 
-        <TextView
-            android:id="@+id/status"
+        <LinearLayout
+            android:id="@+id/downloadLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textColor="@color/reclip_ink"
-            android:textSize="13sp" />
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textColor="@color/reclip_error"
-            android:textSize="12sp"
-            android:visibility="gone" />
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:visibility="gone"
+                app:indicatorColor="@color/reclip_teal"
+                app:trackColor="@color/reclip_surface_variant"
+                app:trackCornerRadius="4dp" />
 
-        <TextView
-            android:id="@+id/progressLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/reclip_muted"
-            android:textSize="12sp"
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/reclip_white"
+                android:textSize="13sp" />
 
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/progress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:max="100"
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/progressLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/reclip_muted"
+                android:textSize="12sp"
+                android:visibility="gone" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/formatGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:visibility="gone"
-            app:singleSelection="true" />
+            <TextView
+                android:id="@+id/error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/reclip_error"
+                android:textSize="12sp"
+                android:visibility="gone" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/action"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/action_download" />
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/formatGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:singleSelection="true" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/action"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/action_download"
+                app:backgroundTint="@color/reclip_teal"
+                app:cornerRadius="16dp"
+                android:textColor="@color/reclip_bg" />
+        </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

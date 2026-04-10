@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ReClip</string>
+    <string name="app_name">G\'s Video Grabber</string>
     <string name="toolbar_subtitle">Paste links, pick MP4 or MP3, and save them on-device.</string>
     <string name="url_hint">Paste one or more video URLs</string>
     <string name="input_helper">Multiple links? Separate them with spaces, commas, or new lines.</string>

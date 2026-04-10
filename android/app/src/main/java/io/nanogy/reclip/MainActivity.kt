@@ -61,9 +61,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUi() {
-        binding.toolbar.title = getString(R.string.app_name)
-        binding.toolbar.subtitle = getString(R.string.toolbar_subtitle)
-
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = clipAdapter

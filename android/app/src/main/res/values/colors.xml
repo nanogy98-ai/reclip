@@ -1,12 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="reclip_orange">#E85D2A</color>
-    <color name="reclip_orange_dark">#CC4B1D</color>
-    <color name="reclip_ink">#2F2D2A</color>
-    <color name="reclip_canvas">#F4F1EB</color>
-    <color name="reclip_surface">#FFFDF8</color>
-    <color name="reclip_border">#E3DED4</color>
-    <color name="reclip_success">#2D8A4E</color>
-    <color name="reclip_error">#C43D3D</color>
-    <color name="reclip_muted">#817B71</color>
+    <!-- Dark Purple Palette -->
+    <color name="reclip_bg">#0F0D13</color>
+    <color name="reclip_surface">#1A1721</color>
+    <color name="reclip_surface_variant">#25212E</color>
+
+    <!-- Accents -->
+    <color name="reclip_teal">#00DAC6</color>
+    <color name="reclip_teal_dark">#018786</color>
+    <color name="reclip_purple_accent">#BB86FC</color>
+
+    <!-- Text and States -->
+    <color name="reclip_white">#F2F0F5</color>
+    <color name="reclip_muted">#8E889A</color>
+    <color name="reclip_error">#CF6679</color>
+    <color name="reclip_border">#332D41</color>
+
+    <!-- Legacy/Standard -->
     <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
 </resources>
