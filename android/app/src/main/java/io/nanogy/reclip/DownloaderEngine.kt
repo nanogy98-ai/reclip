@@ -40,6 +40,9 @@ object DownloaderEngine {
             addOption("--no-mtime")
             addOption("--no-playlist")
             addOption("-o", outputTemplate)
+            // Prefer English when a platform exposes multiple dubbed audio tracks.
+            // If English is unavailable, yt-dlp falls back to its normal ordering.
+            addOption("--format-sort", "lang:en")
 
             when {
                 mode == DownloadMode.AUDIO -> {
